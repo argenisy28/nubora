@@ -29,3 +29,22 @@ export async function getAccessToken() {
 
   return session.tokens?.accessToken?.toString() ?? null;
 }
+
+export async function getUserGroups(): Promise<string[]> {
+  const session = await fetchAuthSession();
+
+  const groups =
+    session.tokens?.accessToken?.payload["cognito:groups"];
+
+  if (Array.isArray(groups)) {
+    return groups.filter(
+      (group): group is string => typeof group === "string",
+    );
+  }
+
+  if (typeof groups === "string") {
+    return [groups];
+  }
+
+  return [];
+}
