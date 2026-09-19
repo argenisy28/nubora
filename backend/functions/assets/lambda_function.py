@@ -47,6 +47,14 @@ def lambda_handler(event, context):
         .get("method", "")
     )
 
+    groups = get_user_groups(event)
+
+    if not is_authorized(method, groups):
+        return create_response(
+            403,
+            {"message": "Forbidden"}
+        )
+
     path_parameters = event.get("pathParameters") or {}
     asset_id = path_parameters.get("assetId")
 
@@ -250,3 +258,47 @@ def lambda_handler(event, context):
         405,
         {"message": "Method not allowed"}
     )
+
+def get_user_groups(event):
+    claims = (
+        event.get("requestContext", {})
+        .get("authorizer", {})
+        .get("jwt", {})
+        .get("claims", {})
+    )
+
+    groups = claims.get("cognito:groups", [])
+
+    if isinstance(groups, list):
+        return set(groups)
+
+    if isinstance(groups, str):
+        try:
+            parsed_groups = json.loads(groups)
+
+            if isinstance(parsed_groups, list):
+                return set(parsed_groups)
+
+        except json.JSONDecodeError:
+            pass
+
+        return {
+            group.strip().strip('"')
+            for group in groups.strip("[]").split(",")
+            if group.strip()
+        }
+
+    return set()
+
+
+def is_authorized(method, groups):
+    if "Admins" in groups:
+        return True
+
+    if "Technicians" in groups:
+        return method in {"GET", "POST", "PUT"}
+
+    if "Viewers" in groups:
+        return method == "GET"
+
+    return False
