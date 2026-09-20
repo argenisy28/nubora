@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {
   createTicket,
   deleteTicket,
@@ -15,12 +15,21 @@ export default function Tickets({ role }: TicketsProps) {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [showCreate, setShowCreate] = useState(false);
-  
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("medium");
+
+  const [editingTicket, setEditingTicket] =
+    useState<Ticket | null>(null);
+
+  const [editTitle, setEditTitle] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editPriority, setEditPriority] = useState("medium");
+  const [editStatus, setEditStatus] = useState("open");
+  const [editAssignedTo, setEditAssignedTo] = useState("");
 
   const canCreate =
     role === "Admins" || role === "Technicians";
@@ -33,7 +42,9 @@ export default function Tickets({ role }: TicketsProps) {
   async function loadTickets() {
     try {
       setError("");
+
       const response = await getTickets();
+
       setTickets(response.tickets ?? []);
     } catch (err) {
       console.error(err);
@@ -47,17 +58,19 @@ export default function Tickets({ role }: TicketsProps) {
     void loadTickets();
   }, []);
 
-  function resetForm() {
+  function resetCreateForm() {
     setTitle("");
     setDescription("");
     setPriority("medium");
     setShowCreate(false);
   }
 
-  async function handleCreate(event: React.FormEvent) {
+  async function handleCreate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
+      setError("");
+
       await createTicket({
         title,
         description,
@@ -65,11 +78,51 @@ export default function Tickets({ role }: TicketsProps) {
         createdBy: "nubora-web",
       });
 
-      resetForm();
+      resetCreateForm();
       await loadTickets();
     } catch (err) {
       console.error(err);
       setError("Unable to create ticket.");
+    }
+  }
+
+  function startEdit(ticket: Ticket) {
+    setEditingTicket(ticket);
+
+    setEditTitle(ticket.title);
+    setEditDescription(ticket.description);
+    setEditPriority(ticket.priority);
+    setEditStatus(ticket.status);
+    setEditAssignedTo(ticket.assignedTo ?? "");
+  }
+
+  function cancelEdit() {
+    setEditingTicket(null);
+  }
+
+  async function handleEdit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!editingTicket) {
+      return;
+    }
+
+    try {
+      setError("");
+
+      await updateTicket(editingTicket.ticketId, {
+        title: editTitle,
+        description: editDescription,
+        priority: editPriority,
+        status: editStatus,
+        assignedTo: editAssignedTo || "unassigned",
+      });
+
+      setEditingTicket(null);
+      await loadTickets();
+    } catch (err) {
+      console.error(err);
+      setError("Unable to update ticket.");
     }
   }
 
@@ -78,6 +131,8 @@ export default function Tickets({ role }: TicketsProps) {
     status: string,
   ) {
     try {
+      setError("");
+
       await updateTicket(ticket.ticketId, {
         status,
       });
@@ -85,7 +140,7 @@ export default function Tickets({ role }: TicketsProps) {
       await loadTickets();
     } catch (err) {
       console.error(err);
-      setError("Unable to update ticket.");
+      setError("Unable to update ticket status.");
     }
   }
 
@@ -99,6 +154,8 @@ export default function Tickets({ role }: TicketsProps) {
     }
 
     try {
+      setError("");
+
       await deleteTicket(ticket.ticketId);
       await loadTickets();
     } catch (err) {
@@ -142,7 +199,7 @@ export default function Tickets({ role }: TicketsProps) {
 
             <button
               className="text-button"
-              onClick={resetForm}
+              onClick={resetCreateForm}
             >
               Cancel
             </button>
@@ -201,6 +258,108 @@ export default function Tickets({ role }: TicketsProps) {
         </div>
       )}
 
+      {editingTicket && (
+        <div className="dashboard-card ticket-form-card edit-ticket-card">
+          <div className="card-heading">
+            <div>
+              <p className="eyebrow">EDIT REQUEST</p>
+              <h2>{editingTicket.ticketId}</h2>
+            </div>
+
+            <button
+              className="text-button"
+              onClick={cancelEdit}
+            >
+              Cancel
+            </button>
+          </div>
+
+          <form
+            className="ticket-form"
+            onSubmit={handleEdit}
+          >
+            <label>
+              Title
+
+              <input
+                value={editTitle}
+                onChange={(event) =>
+                  setEditTitle(event.target.value)
+                }
+                required
+              />
+            </label>
+
+            <label>
+              Description
+
+              <textarea
+                value={editDescription}
+                onChange={(event) =>
+                  setEditDescription(event.target.value)
+                }
+                required
+              />
+            </label>
+
+            <div className="form-grid">
+              <label>
+                Priority
+
+                <select
+                  value={editPriority}
+                  onChange={(event) =>
+                    setEditPriority(event.target.value)
+                  }
+                >
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </label>
+
+              <label>
+                Status
+
+                <select
+                  value={editStatus}
+                  onChange={(event) =>
+                    setEditStatus(event.target.value)
+                  }
+                >
+                  <option value="open">Open</option>
+                  <option value="in-progress">
+                    In progress
+                  </option>
+                  <option value="resolved">
+                    Resolved
+                  </option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Assigned to
+
+              <input
+                value={editAssignedTo}
+                placeholder="technician-01"
+                onChange={(event) =>
+                  setEditAssignedTo(event.target.value)
+                }
+              />
+            </label>
+
+            <button
+              className="primary-button"
+              type="submit"
+            >
+              Save changes
+            </button>
+          </form>
+        </div>
+      )}
+
       <div className="dashboard-card">
         <div className="card-heading">
           <div>
@@ -225,7 +384,11 @@ export default function Tickets({ role }: TicketsProps) {
                 <div className="ticket-main">
                   <strong>{ticket.title}</strong>
 
-                  <span>{ticket.ticketId}</span>
+                  <span>
+                    {ticket.ticketId}
+                    {" · "}
+                    {ticket.assignedTo || "unassigned"}
+                  </span>
 
                   <p>{ticket.description}</p>
                 </div>
@@ -257,6 +420,15 @@ export default function Tickets({ role }: TicketsProps) {
                     <span>{ticket.status}</span>
                   )}
 
+                  {canEdit && (
+                    <button
+                      className="secondary-button"
+                      onClick={() => startEdit(ticket)}
+                    >
+                      Edit
+                    </button>
+                  )}
+
                   {canDelete && (
                     <button
                       className="danger-button"
@@ -273,8 +445,6 @@ export default function Tickets({ role }: TicketsProps) {
           </div>
         )}
       </div>
-
-      
     </>
   );
 }

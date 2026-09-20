@@ -975,3 +975,37 @@ input {
     flex-wrap: wrap;
   }
 }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.secondary-button {
+  padding: 9px 12px;
+
+  border: 1px solid #294258;
+  border-radius: 8px;
+
+  color: #9fc4e2;
+  background: #0b1b27;
+
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background: #102536;
+}
+
+.edit-ticket-card {
+  margin-bottom: 20px;
+
+  border-color: #284257;
+}
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
