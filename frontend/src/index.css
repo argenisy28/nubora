@@ -1065,3 +1065,23 @@ input {
     grid-template-columns: 1fr;
   }
 }
+
+.asset-filter-bar {
+  grid-template-columns:
+    minmax(240px, 1fr)
+    170px
+    170px
+    180px;
+}
+
+@media (max-width: 1000px) {
+  .asset-filter-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .asset-filter-bar {
+    grid-template-columns: 1fr;
+  }
+}
