@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { getUser } from "./services/auth";
+import { Navigate, Route, Routes } from "react-router-dom";
+
+import { getUser, getUserGroups } from "./services/auth";
+
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Tickets from "./pages/Tickets";
+import Assets from "./pages/Assets";
+import AppLayout from "./components/AppLayout";
 
 type NuboraUser = {
   username: string;
@@ -13,12 +19,22 @@ type NuboraUser = {
 
 function App() {
   const [user, setUser] = useState<NuboraUser | null>(null);
+  const [role, setRole] = useState("User");
   const [loading, setLoading] = useState(true);
 
   const refreshUser = useCallback(async () => {
     const currentUser = await getUser();
 
-    setUser(currentUser as NuboraUser | null);
+    if (currentUser) {
+      const groups = await getUserGroups();
+
+      setUser(currentUser as NuboraUser);
+      setRole(groups[0] ?? "User");
+    } else {
+      setUser(null);
+      setRole("User");
+    }
+
     setLoading(false);
   }, []);
 
@@ -40,10 +56,19 @@ function App() {
   }
 
   return (
-    <Dashboard
+    <AppLayout
       email={user.signInDetails?.loginId}
+      role={role}
       onLogout={refreshUser}
-    />
+    >
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/tickets" element={<Tickets role={role} />} />
+        <Route path="/assets" element={<Assets role={role} />} />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AppLayout>
   );
 }
 
