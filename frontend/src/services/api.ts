@@ -146,3 +146,64 @@ export function deleteTicket(
     },
   );
 }
+
+export interface CreateAssetInput {
+  name: string;
+  type: string;
+  manufacturer: string;
+  model: string;
+  serialNumber: string;
+  status: string;
+  assignedTo: string;
+  department: string;
+}
+
+export interface UpdateAssetInput {
+  name?: string;
+  type?: string;
+  manufacturer?: string;
+  model?: string;
+  serialNumber?: string;
+  status?: string;
+  assignedTo?: string;
+  department?: string;
+}
+
+export function getAsset(assetId: string): Promise<Asset> {
+  return authenticatedRequest<Asset>(
+    `/assets/${encodeURIComponent(assetId)}`,
+  );
+}
+
+export function createAsset(
+  asset: CreateAssetInput,
+): Promise<Asset> {
+  return authenticatedRequest<Asset>("/assets", {
+    method: "POST",
+    body: JSON.stringify(asset),
+  });
+}
+
+export function updateAsset(
+  assetId: string,
+  updates: UpdateAssetInput,
+): Promise<Asset> {
+  return authenticatedRequest<Asset>(
+    `/assets/${encodeURIComponent(assetId)}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(updates),
+    },
+  );
+}
+
+export function deleteAsset(
+  assetId: string,
+): Promise<{ message: string }> {
+  return authenticatedRequest<{ message: string }>(
+    `/assets/${encodeURIComponent(assetId)}`,
+    {
+      method: "DELETE",
+    },
+  );
+}
