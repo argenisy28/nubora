@@ -92,3 +92,57 @@ export function getTickets(): Promise<TicketsResponse> {
 export function getAssets(): Promise<AssetsResponse> {
   return authenticatedRequest<AssetsResponse>("/assets");
 }
+
+export interface CreateTicketInput {
+  title: string;
+  description: string;
+  priority: string;
+  createdBy: string;
+}
+
+export interface UpdateTicketInput {
+  title?: string;
+  description?: string;
+  priority?: string;
+  status?: string;
+  assignedTo?: string;
+}
+
+export function getTicket(ticketId: string): Promise<Ticket> {
+  return authenticatedRequest<Ticket>(
+    `/tickets/${encodeURIComponent(ticketId)}`,
+  );
+}
+
+export function createTicket(
+  ticket: CreateTicketInput,
+): Promise<Ticket> {
+  return authenticatedRequest<Ticket>("/tickets", {
+    method: "POST",
+    body: JSON.stringify(ticket),
+  });
+}
+
+export function updateTicket(
+  ticketId: string,
+  updates: UpdateTicketInput,
+): Promise<Ticket> {
+  return authenticatedRequest<Ticket>(
+    `/tickets/${encodeURIComponent(ticketId)}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(updates),
+    },
+  );
+}
+
+export function deleteTicket(
+  ticketId: string,
+): Promise<{ message: string }> {
+  return authenticatedRequest<{ message: string }>(
+    `/tickets/${encodeURIComponent(ticketId)}`,
+    {
+      method: "DELETE",
+    },
+  );
+}

@@ -848,3 +848,130 @@ input {
   display: block;
   text-decoration: none;
 }
+
+.primary-button {
+  padding: 11px 17px;
+  border: 0;
+  border-radius: 9px;
+  color: white;
+  background: #327fdf;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #3d8cef;
+}
+
+.text-button {
+  padding: 8px;
+  border: 0;
+  color: #7e94a7;
+  background: transparent;
+  cursor: pointer;
+}
+
+.ticket-form-card {
+  margin-bottom: 20px;
+}
+
+.ticket-form {
+  display: grid;
+  gap: 18px;
+}
+
+.ticket-form label {
+  display: grid;
+  gap: 8px;
+  color: #b5c4d1;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ticket-form input,
+.ticket-form textarea,
+.ticket-form select,
+.ticket-controls select {
+  padding: 11px 12px;
+  border: 1px solid #233746;
+  border-radius: 8px;
+  outline: none;
+  color: #e8f0f5;
+  background: #08131c;
+  font: inherit;
+}
+
+.ticket-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.ticket-form input:focus,
+.ticket-form textarea:focus,
+.ticket-form select:focus {
+  border-color: #428cef;
+}
+
+.ticket-table {
+  display: grid;
+}
+
+.ticket-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 20px 0;
+  border-top: 1px solid #152530;
+}
+
+.ticket-main {
+  max-width: 650px;
+}
+
+.ticket-main strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #e0eaf1;
+}
+
+.ticket-main > span {
+  color: #587083;
+  font-size: 11px;
+}
+
+.ticket-main p {
+  margin: 10px 0 0;
+  color: #8294a4;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.ticket-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.danger-button {
+  padding: 9px 12px;
+  border: 1px solid rgba(239, 107, 107, 0.25);
+  border-radius: 8px;
+  color: #ff9292;
+  background: rgba(239, 107, 107, 0.06);
+  cursor: pointer;
+}
+
+.danger-button:hover {
+  background: rgba(239, 107, 107, 0.12);
+}
+
+@media (max-width: 850px) {
+  .ticket-item {
+    flex-direction: column;
+  }
+
+  .ticket-controls {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}
