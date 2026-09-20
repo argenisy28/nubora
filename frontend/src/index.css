@@ -1085,3 +1085,169 @@ input {
     grid-template-columns: 1fr;
   }
 }
+
+/* ------------------------------------------------ */
+/* Dashboard analytics                              */
+/* ------------------------------------------------ */
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  margin-bottom: 24px;
+}
+
+.analytics-card {
+  min-height: 270px;
+}
+
+.stat-breakdown {
+  display: grid;
+  gap: 22px;
+}
+
+.breakdown-row {
+  display: grid;
+  gap: 9px;
+}
+
+.breakdown-row > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.breakdown-label {
+  color: #8497a8;
+  font-size: 13px;
+}
+
+.breakdown-row strong {
+  color: #dce7ef;
+}
+
+.progress-track {
+  width: 100%;
+  height: 7px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #13232f;
+}
+
+.progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #428cef;
+
+  transition: width 250ms ease;
+}
+
+.priority-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+
+  margin-top: 10px;
+}
+
+.priority-stat {
+  padding: 20px;
+
+  border: 1px solid #192d3c;
+  border-radius: 11px;
+
+  background: #08131c;
+}
+
+.priority-stat span {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #718799;
+  font-size: 12px;
+}
+
+.priority-stat strong {
+  color: #e1ebf2;
+  font-size: 28px;
+}
+
+.asset-status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.asset-status-grid > div {
+  padding: 17px;
+
+  border: 1px solid #192d3c;
+  border-radius: 10px;
+
+  background: #08131c;
+}
+
+.asset-status-grid span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #708597;
+  font-size: 12px;
+}
+
+.asset-status-grid strong {
+  color: #e0eaf1;
+  font-size: 24px;
+}
+
+.department-list {
+  display: grid;
+}
+
+.department-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 0;
+
+  border-top: 1px solid #152530;
+}
+
+.department-row span {
+  color: #8295a5;
+}
+
+.department-row strong {
+  color: #dce7ef;
+}
+
+.analytics-empty {
+  color: #627789;
+  font-size: 13px;
+}
+
+.recent-activity-card {
+  margin-bottom: 30px;
+}
+
+@media (max-width: 1000px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .priority-grid,
+  .asset-status-grid {
+    grid-template-columns: 1fr;
+  }
+}
