@@ -6,6 +6,8 @@ Nubora is a full-stack cloud application for managing IT support tickets and org
 
 The project was designed as a practical cloud engineering, software engineering, and cybersecurity portfolio project. It combines a React frontend with a serverless AWS backend, secure authentication, role-based access control, persistent cloud storage, operational analytics, and automated deployment.
 
+---
+
 ## Live Application
 
 Nubora is deployed using AWS Amplify Hosting:
@@ -44,18 +46,8 @@ Nubora includes an organizational hardware inventory system:
 - Track asset status
 - Assign assets to users or departments
 - Delete assets
-- Search by:
-  - Asset name
-  - Asset ID
-  - Serial number
-  - Manufacturer
-  - Model
-  - Assignee
-  - Department
-- Filter by:
-  - Asset type
-  - Status
-  - Department
+- Search by asset name, ID, serial number, manufacturer, model, assignee, or department
+- Filter by asset type, status, and department
 
 ### Operational Dashboard
 
@@ -70,6 +62,52 @@ The Overview dashboard provides real-time operational information from AWS resou
 - Asset status summary
 - Assets by department
 - Recently updated tickets
+
+---
+
+## Application Screenshots
+
+### 1. Operations Dashboard
+
+The Nubora dashboard provides a real-time overview of support activity, asset inventory, API health, ticket severity, ticket status, and organizational asset distribution.
+
+![Nubora Operations Dashboard](docs/screenshots/nubora-dashboard.png)
+
+### 2. Ticket Management
+
+Administrators and technicians can create, search, filter, assign, update, and manage IT support tickets through the production interface.
+
+![Nubora Ticket Management](docs/screenshots/nubora-tickets.png)
+
+### 3. Ticket Editing
+
+Ticket details including title, description, priority, status, and technician assignment can be updated through the frontend and persisted in Amazon DynamoDB.
+
+![Nubora Ticket Editing](docs/screenshots/nubora-ticket-edit.png)
+
+### 4. Asset Management
+
+Nubora provides a searchable organizational hardware inventory with filtering by device type, lifecycle status, and department.
+
+![Nubora Asset Management](docs/screenshots/nubora-assets.png)
+
+### 5. Asset Editing
+
+Managed devices can be updated with hardware details, serial numbers, organizational assignments, department information, and lifecycle status.
+
+![Nubora Asset Editing](docs/screenshots/nubora-asset-edit.png)
+
+### 6. Amazon Cognito Authentication
+
+Nubora uses Amazon Cognito for secure user authentication before access to the operational platform is granted.
+
+![Nubora Login](docs/screenshots/nubora-login.png)
+
+### 7. Role-Based Access Control
+
+Viewer accounts receive read-only access to operational data. Administrative actions such as Create, Edit, and Delete are removed from the interface and are also restricted by backend authorization.
+
+![Nubora Viewer RBAC](docs/screenshots/nubora-rbac-viewer.png)
 
 ---
 
@@ -156,7 +194,7 @@ Health Lambda  Tickets Lambda  Assets Lambda
 
 ## AWS Services
 
-Nubora currently uses the following AWS services:
+Nubora currently uses several AWS services to provide hosting, authentication, serverless compute, API access, and persistent storage.
 
 ### AWS Amplify Hosting
 
@@ -243,7 +281,7 @@ Ticket and asset routes are protected using Cognito JWT authorization.
 
 ## Security
 
-Security was treated as a core part of the project rather than an additional feature.
+Security was treated as a core part of the project rather than as an additional feature.
 
 ### Authentication
 
@@ -274,6 +312,13 @@ Individual Lambda execution roles are granted access only to the DynamoDB resour
 ### CORS
 
 API Gateway CORS is configured only for approved development and production origins.
+
+Approved environments include:
+
+```text
+http://localhost:5173
+https://main.d34b9fsygbqf43.amplifyapp.com
+```
 
 ### Environment Configuration
 
@@ -307,7 +352,7 @@ JWT access tokens
 - AWS Lambda
 - Amazon API Gateway
 
-### Data
+### Database
 
 - Amazon DynamoDB
 
@@ -316,9 +361,9 @@ JWT access tokens
 - Amazon Cognito
 - JWT
 - Role-Based Access Control
-- IAM
+- AWS IAM
 
-### DevOps / Cloud
+### DevOps & Cloud
 
 - AWS Amplify Hosting
 - GitHub
@@ -348,6 +393,14 @@ nubora/
 │           └── lambda_function.py
 │
 ├── docs/
+│   └── screenshots/
+│       ├── nubora-login.png
+│       ├── nubora-dashboard.png
+│       ├── nubora-tickets.png
+│       ├── nubora-ticket-edit.png
+│       ├── nubora-assets.png
+│       ├── nubora-asset-edit.png
+│       └── nubora-rbac-viewer.png
 │
 ├── frontend/
 │   ├── public/
@@ -444,7 +497,7 @@ Start the development server:
 npm run dev
 ```
 
-The development application runs on:
+The local development application runs on:
 
 ```text
 http://localhost:5173
@@ -475,7 +528,13 @@ Vite dist/
 AWS Amplify Hosting
 ```
 
-Changes pushed to the `main` branch can automatically trigger a new production deployment.
+Changes pushed to the `main` branch automatically trigger a new production deployment.
+
+The production application is served over HTTPS at:
+
+```text
+https://main.d34b9fsygbqf43.amplifyapp.com
+```
 
 ---
 
@@ -538,6 +597,15 @@ Changes pushed to the `main` branch can automatically trigger a new production d
 - Production CORS
 - SPA routing
 - Live AWS integration
+- Automatic GitHub deployments
+
+### Phase 9 — Portfolio Documentation
+
+- Production screenshots
+- Architecture documentation
+- Security documentation
+- Deployment documentation
+- Project presentation
 
 ---
 
@@ -546,7 +614,7 @@ Changes pushed to the `main` branch can automatically trigger a new production d
 Potential future improvements include:
 
 - Audit logging and activity history
-- CloudWatch operational monitoring
+- Amazon CloudWatch operational monitoring
 - Ticket comments
 - User management
 - Ticket categories
@@ -579,9 +647,11 @@ Nubora demonstrates practical experience with:
 - TypeScript
 - Python
 - AWS CLI
-- Git/GitHub workflows
+- Git and GitHub workflows
 - Production deployment
+- CI/CD
 - Cloud security concepts
+- IT operations workflows
 
 ---
 
@@ -598,4 +668,3 @@ Areas of interest:
 - Software Engineering
 - IT Infrastructure
 
-GitHub: [argenisy28](https://github.com/argenisy28)
