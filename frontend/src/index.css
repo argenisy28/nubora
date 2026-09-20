@@ -1009,3 +1009,59 @@ input {
     grid-template-columns: 1fr;
   }
 }
+
+.filter-bar {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) 180px 180px;
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.filter-bar input,
+.filter-bar select {
+  padding: 11px 13px;
+
+  border: 1px solid #233746;
+  border-radius: 8px;
+
+  color: #dce7ef;
+  background: #08131c;
+
+  outline: none;
+  font: inherit;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: #428cef;
+}
+
+.filter-bar input::placeholder {
+  color: #526779;
+}
+
+.empty-state {
+  padding: 60px 20px;
+
+  text-align: center;
+  color: #627789;
+}
+
+.empty-state strong {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #aabac7;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 13px;
+}
+
+@media (max-width: 850px) {
+  .filter-bar {
+    grid-template-columns: 1fr;
+  }
+}
