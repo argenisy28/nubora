@@ -655,16 +655,10 @@ Nubora demonstrates practical experience with:
 
 ---
 
-## Author
+## Developer
 
 **Argenis Vélez Alvarez**
 
 Computer Engineering Student
 
-Areas of interest:
-
-- Cybersecurity
-- Cloud Engineering
-- Software Engineering
-- IT Infrastructure
 
