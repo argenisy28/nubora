@@ -39,8 +39,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    void refreshUser();
-  }, [refreshUser]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  void refreshUser();
+}, [refreshUser]);
 
   if (loading) {
     return (

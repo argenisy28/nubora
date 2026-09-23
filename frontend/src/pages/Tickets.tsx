@@ -89,8 +89,9 @@ export default function Tickets({ role }: TicketsProps) {
   }
 
   useEffect(() => {
-    void loadTickets();
-  }, []);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  void loadTickets();
+}, []);
 
   // --------------------------------------------------
   // Filtering

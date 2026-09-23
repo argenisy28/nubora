@@ -24,7 +24,6 @@ export default function AppLayout({
     <div className="dashboard">
       <aside className="sidebar">
         <div className="dashboard-brand">
-          <div className="brand-mark small">N</div>
           <span>Nubora</span>
         </div>
 

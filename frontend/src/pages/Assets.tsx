@@ -103,8 +103,9 @@ export default function Assets({ role }: AssetsProps) {
   }
 
   useEffect(() => {
-    void loadAssets();
-  }, []);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  void loadAssets();
+}, []);
 
   // --------------------------------------------------
   // Available department filters

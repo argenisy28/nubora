@@ -43,7 +43,6 @@ export default function Login({ onLogin }: LoginProps) {
 
       <main className="login-container">
         <section className="brand-panel">
-          <div className="brand-mark">N</div>
 
           <div>
             <p className="eyebrow">CLOUD OPERATIONS</p>
@@ -86,7 +85,7 @@ export default function Login({ onLogin }: LoginProps) {
           <div className="login-card">
             <div className="login-card-header">
               <div className="mobile-logo">
-                <div className="brand-mark small">N</div>
+                
                 <span>Nubora</span>
               </div>
 
